@@ -1,0 +1,668 @@
+/* Reset dasar */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ===== SCROLL SMOOTH — BIAR GA TEK-TEK-TEK ===== */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, 'Segoe UI', 'Helvetica Neue', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40px 20px;
+    background: #0D47A1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+}
+
+/* ======================================== */
+/* BACKGROUND SEASHORE */
+/* ======================================== */
+
+.seashore-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.ocean-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, 
+        #E3F2FD 0%, 
+        #90CAF9 30%, 
+        #2196F3 60%, 
+        #0D47A1 100%
+    );
+}
+
+/* ======================================== */
+/* WAVE RIPPLE - Mengikuti Cursor */
+/* ======================================== */
+
+.wave-ripple {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(
+        circle at center,
+        rgba(227, 242, 253, 0.15) 0%,
+        rgba(144, 202, 249, 0.10) 30%,
+        rgba(33, 150, 243, 0.05) 60%,
+        transparent 80%
+    );
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: all 0.1s ease-out;
+    will-change: transform, opacity;
+    opacity: 0;
+    z-index: 1;
+}
+
+.wave-ripple.active {
+    opacity: 1;
+}
+
+.wave-ripple-2 {
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(
+        circle at center,
+        rgba(255, 255, 255, 0.08) 0%,
+        rgba(144, 202, 249, 0.05) 40%,
+        transparent 70%
+    );
+    transition: all 0.15s ease-out;
+}
+
+.wave-ripple-3 {
+    width: 1000px;
+    height: 1000px;
+    background: radial-gradient(
+        circle at center,
+        rgba(13, 71, 161, 0.08) 0%,
+        rgba(33, 150, 243, 0.04) 30%,
+        transparent 70%
+    );
+    transition: all 0.2s ease-out;
+}
+
+/* ======================================== */
+/* CANVAS WAVES */
+/* ======================================== */
+
+#waveCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+/* ======================================== */
+/* CONTAINER */
+/* ======================================== */
+
+.container {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    width: 100%;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(40px) saturate(1.6);
+    -webkit-backdrop-filter: blur(40px) saturate(1.6);
+    border-radius: 40px;
+    padding: 40px 32px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 
+        0 30px 80px rgba(13, 71, 161, 0.30),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    animation: smoothZoomIn 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+    transform: scale(0.85) translateY(40px);
+    overflow: visible;
+    margin: 60px auto;
+}
+
+.container:hover {
+    background: rgba(255, 255, 255, 0.12);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 40px 100px rgba(13, 71, 161, 0.35),
+        0 0 60px rgba(33, 150, 243, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(45px) saturate(1.8);
+    -webkit-backdrop-filter: blur(45px) saturate(1.8);
+}
+
+@keyframes smoothZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.80) translateY(50px);
+        filter: blur(6px);
+    }
+    35% {
+        opacity: 0.5;
+        transform: scale(0.95) translateY(-5px);
+        filter: blur(2px);
+    }
+    65% {
+        opacity: 0.9;
+        transform: scale(1.02) translateY(3px);
+        filter: blur(0px);
+    }
+    85% {
+        opacity: 1;
+        transform: scale(0.99) translateY(-1px);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+        filter: blur(0px);
+    }
+}
+
+.container .glass-top-highlight {
+    position: absolute;
+    top: -1px;
+    left: 10%;
+    width: 80%;
+    height: 45%;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.20) 0%,
+        rgba(255, 255, 255, 0.04) 40%,
+        transparent 100%
+    );
+    border-radius: 40px 40px 50% 50%;
+    pointer-events: none;
+    opacity: 0.8;
+    transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.container:hover .glass-top-highlight {
+    opacity: 1;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.20) 0%,
+        rgba(255, 255, 255, 0.05) 40%,
+        transparent 100%
+    );
+    height: 50%;
+}
+
+/* ======================================== */
+/* PROFIL */
+/* ======================================== */
+
+.profile {
+    margin-bottom: 35px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    animation: smoothZoomIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+    animation-delay: 0.05s;
+}
+
+.profile-img {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 16px;
+    border: 2.5px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 
+        0 15px 40px rgba(13, 71, 161, 0.20),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile-img:hover {
+    transform: scale(1.06);
+    border-color: rgba(255, 255, 255, 0.30);
+    box-shadow: 0 20px 60px rgba(33, 150, 243, 0.25);
+}
+
+.name {
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.10);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile:hover .name {
+    letter-spacing: 0.5px;
+}
+
+.bio {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.45);
+    margin-top: 4px;
+    font-weight: 400;
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.profile:hover .bio {
+    color: rgba(255, 255, 255, 0.70);
+}
+
+/* ======================================== */
+/* MENU GRID — 3 KOLOM */
+/* ======================================== */
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+    margin: 20px 0 30px;
+    position: relative;
+    z-index: 1;
+    animation: smoothZoomIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+    animation-delay: 0.10s;
+}
+
+.menu-item {
+    grid-column: span 2;
+}
+
+/* Posisikan dua item terakhir di tengah untuk membentuk segitiga */
+.menu-item:nth-child(4) {
+    grid-column: 2 / span 2;
+}
+
+.menu-item:nth-child(5) {
+    grid-column: 4 / span 2;
+}
+
+/* ======================================== */
+/* MENU ITEM — MEMBESAR SAAT HOVER */
+/* ======================================== */
+
+.menu-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.90);
+    font-weight: 500;
+    position: relative;
+    min-height: 110px;
+    border-radius: 20px;
+    padding: 16px 8px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    overflow: hidden;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 
+        0 4px 20px rgba(0, 0, 0, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Staggered delay untuk setiap item */
+.menu-item:nth-child(1) { transition-delay: 0.04s; }
+.menu-item:nth-child(2) { transition-delay: 0.08s; }
+.menu-item:nth-child(3) { transition-delay: 0.12s; }
+.menu-item:nth-child(4) { transition-delay: 0.16s; }
+.menu-item:nth-child(5) { transition-delay: 0.20s; }
+
+/* ===== HOVER — KOTAK MEMBESAR + NAIK ===== */
+.menu-item:hover {
+    transform: translateY(-6px) scale(1.06) !important;
+    background: rgba(255, 255, 255, 0.20);
+    border-color: rgba(255, 255, 255, 0.25);
+    box-shadow: 
+        0 20px 50px rgba(13, 71, 161, 0.20),
+        0 0 40px rgba(33, 150, 243, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px) saturate(1.5);
+    -webkit-backdrop-filter: blur(15px) saturate(1.5);
+}
+
+/* ===== GLASS GLOW ===== */
+.menu-item .glass-glow {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+        circle at 30% 30%,
+        rgba(255, 255, 255, 0.15) 0%,
+        transparent 50%
+    );
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    pointer-events: none;
+}
+
+.menu-item:hover .glass-glow {
+    opacity: 1;
+}
+
+/* ===== BORDER GLOW ===== */
+.menu-item::before {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: 22px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.12),
+        rgba(144, 202, 249, 0.04),
+        rgba(33, 150, 243, 0.08),
+        rgba(255, 255, 255, 0.04)
+    );
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: blur(3px);
+}
+
+.menu-item:hover::before {
+    opacity: 1;
+    animation: borderPulse 3s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+@keyframes borderPulse {
+    0%, 100% {
+        opacity: 0.3;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+/* ===== SHINE EFFECT ===== */
+.menu-item::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        135deg,
+        transparent 35%,
+        rgba(255, 255, 255, 0.03) 40%,
+        rgba(255, 255, 255, 0.06) 45%,
+        rgba(255, 255, 255, 0.03) 50%,
+        transparent 55%
+    );
+    pointer-events: none;
+    transform: rotate(30deg) translateX(-100%);
+    transition: all 1.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    opacity: 0;
+}
+
+.menu-item:hover::after {
+    opacity: 1;
+    transform: rotate(30deg) translateX(100%);
+    animation: shineSweep 4s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+}
+
+@keyframes shineSweep {
+    0% {
+        transform: rotate(30deg) translateX(-100%);
+    }
+    100% {
+        transform: rotate(30deg) translateX(100%);
+    }
+}
+
+/* ======================================== */
+/* ICON IMG — SUPPORT SVG & IMG */
+/* ======================================== */
+
+.icon-img {
+    width: 32px;
+    height: 32px;
+    margin-bottom: 6px;
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+    object-fit: contain;
+}
+
+/* Buat semua icon jadi putih */
+.menu-item .icon-img {
+    filter: brightness(0) invert(1);
+}
+
+/* Khusus SVG di Zean Album */
+.menu-item svg.icon-img {
+    filter: brightness(0) invert(1);
+    stroke: white;
+}
+
+.menu-item:hover .icon-img {
+    transform: translateY(-3px) scale(1.15);
+    filter: brightness(0) invert(1) drop-shadow(0 8px 25px rgba(255, 255, 255, 0.15));
+}
+
+.menu-item:hover svg.icon-img {
+    filter: brightness(0) invert(1) drop-shadow(0 8px 25px rgba(255, 255, 255, 0.15));
+}
+
+/* ===== LABEL ===== */
+.menu-item .label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.80);
+    transition: all 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+    text-align: center;
+    line-height: 1.2;
+}
+
+.menu-item:hover .label {
+    color: #ffffff;
+    letter-spacing: 0.6px;
+}
+
+/* ===== TANDA "=" ===== */
+.menu-item .equals {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 14px;
+    font-weight: 200;
+    color: rgba(255, 255, 255, 0.04);
+    transition: all 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: 'Georgia', serif;
+}
+
+.menu-item:hover .equals {
+    color: rgba(255, 255, 255, 0.15);
+    transform: rotate(90deg) scale(1.2);
+}
+
+/* ===== WARNA GLOW PER LINK ===== */
+.menu-item:nth-child(1):hover { border-color: rgba(255, 255, 255, 0.3); }
+.menu-item:nth-child(2):hover { border-color: rgba(255, 255, 255, 0.3); }
+.menu-item:nth-child(3):hover { border-color: rgba(255, 255, 255, 0.3); }
+.menu-item:nth-child(4):hover { border-color: rgba(255, 255, 255, 0.3); }
+.menu-item:nth-child(5):hover { border-color: rgba(255, 255, 255, 0.3); }
+
+/* ======================================== */
+/* FOOTER */
+/* ======================================== */
+
+.footer {
+    margin-top: 20px;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.04);
+    padding-top: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    letter-spacing: 0.5px;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    animation: smoothZoomIn 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    opacity: 0;
+    transform: scale(0.85) translateY(30px);
+    animation-delay: 0.30s;
+}
+
+.container:hover .footer {
+    color: rgba(255, 255, 255, 0.15);
+    border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ======================================== */
+/* SCROLLBAR STYLING */
+/* ======================================== */
+
+html {
+    scroll-behavior: smooth;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.15) rgba(255, 255, 255, 0.05);
+}
+
+/* ======================================== */
+/* RESPONSIVE */
+/* ======================================== */
+
+@media (max-width: 640px) {
+    .container {
+        padding: 28px 16px;
+        border-radius: 28px;
+    }
+
+    .menu-grid {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 10px;
+    }
+
+    .menu-grid .menu-item {
+        grid-column: span 2;
+    }
+
+    .menu-grid .menu-item:nth-child(4) {
+        grid-column: 2 / span 2;
+    }
+
+    .menu-grid .menu-item:nth-child(5) {
+        grid-column: 4 / span 2;
+    }
+
+    .menu-item {
+        padding: 14px 8px;
+        min-height: 90px;
+        border-radius: 16px;
+    }
+
+    .menu-item:hover {
+        transform: translateY(-4px) scale(1.04) !important;
+    }
+
+    .menu-item .icon-img {
+        width: 24px;
+        height: 24px;
+    }
+
+    .menu-item .label {
+        font-size: 10px;
+    }
+
+    .menu-item .equals {
+        font-size: 12px;
+        top: 6px;
+        right: 8px;
+    }
+
+    .profile-img {
+        width: 85px;
+        height: 85px;
+    }
+
+    .name {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 420px) {
+    .menu-grid {
+        gap: 8px;
+    }
+
+    .menu-item {
+        min-height: 75px;
+        padding: 10px 4px;
+        border-radius: 12px;
+    }
+
+    .menu-item:hover {
+        transform: translateY(-3px) scale(1.03) !important;
+    }
+
+    .menu-item .icon-img {
+        width: 20px;
+        height: 20px;
+        margin-bottom: 4px;
+    }
+
+    .menu-item .label {
+        font-size: 9px;
+    }
+
+    .menu-item .equals {
+        font-size: 10px;
+        top: 4px;
+        right: 6px;
+    }
+}
